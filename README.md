@@ -22,4 +22,10 @@ And at the first row the link to the registration spreadsheet and the following 
 
 The comments begin with **#**  
 
+Format URL
+----------
+
+The URL need to be shared google spreadsheet URL that look like that :
+
+`https://docs.google.com/spreadsheets/d/[GOOGLE SPREADSHEET ID]`
 
