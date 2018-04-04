@@ -8,7 +8,7 @@ from textwrap import dedent
 import requests
 
 import pandas as pd
-import seaborn as sns; sns.set()
+import seaborn as sns; sns.set(); sns.set_style("ticks")
 from io import StringIO
 from matplotlib.backends.backend_pdf import PdfPages
 import matplotlib.pyplot as plt
@@ -56,9 +56,9 @@ def beautify_h1(message) :
 
 	number_letter = len(message)
 
-	print("\n{}".format("#"*number_letter+2))
+	print("\n{}".format("#"*(number_letter+2)))
 	print("# {}".format(message))
-	print("{}\n".format("#"*number_letter+2))
+	print("{}\n".format("#"*(number_letter+2)))
 
 	return
 
@@ -144,7 +144,7 @@ def merge_results(allRegister, csvInput, number) :
 ##########################################################################################
 ##########################################################################################
 
-def winners_pdf(winner_Talk, winner_Poster, folder, backgroung_template, name, fontsize=12, figsize=[8.27, 11.69]):
+def winners_pdf(winner_Talk, winner_Poster, folder, backgroung_template, name, fontsize=12, figsize=[8, 12]):
 
 	"""
     Function that will create the pdf file with the names of the winner
@@ -220,14 +220,14 @@ def compute_score(df_Talk, df_Poster, folder, backgroung_template) :
     winner_Poster = " and ".join(score_Poster[score_Poster == score_Poster.max()].index.tolist())
 
     beautify_h1("Poster")
-    print("The name of the winner for YRLS{} : {}".format(time.strftime("%Y"), winner_Talk))
+    print("The name of the winner for YRLS{} : {}".format(time.strftime("%Y"), winner_Poster))
 
     # For the page
     winners_pdf(winner_Talk, winner_Poster, folder, backgroung_template, name="Winner_YRLS{}_{}.pdf".format(time.strftime("%Y"), time.strftime("%Y%m%d")))
     
 
    	# For the slide
-    winners_pdf(winner_Talk, winner_Poster, folder, backgroung_template, name="Winner_YRLS{}_{}.pdf".format(time.strftime("%Y"), time.strftime("%Y%m%d")), figsize=[16, 9])
+    winners_pdf(winner_Talk, winner_Poster, folder, backgroung_template, name="Winner_slide_YRLS{}_{}.pdf".format(time.strftime("%Y"), time.strftime("%Y%m%d")), figsize=[16, 9])
     
     return
 
@@ -290,8 +290,9 @@ TEMPLATE = args.template
 if args.output:
 	OUTPUT = args.output
 else :
-	OUTPUT = os.path.join(os.path.abspath(TEMPLATE),"YRLS{}_results_{}".format(time.strftime("%Y"), time.strftime("%y%m%d")))
+	OUTPUT = os.path.join(os.path.abspath(os.path.dirname(TEMPLATE)),"YRLS{}_results_{}".format(time.strftime("%Y"), time.strftime("%y%m%d")))
 		
+create_folder(OUTPUT)
 
 #  We take the information directly on the spreadsheet if the information is online
 if args.url_info_csv :
@@ -312,7 +313,7 @@ print(dedent("""
 || \ \   / /  __ \| |     / ____| \ \        / (_)                          
 ||  \ \_/ /| |__) | |    | (___    \ \  /\  / / _ _ __  _ __   ___ _ __ ___ 
 ||   \   / |  _  /| |     \___ \    \ \/  \/ / | | '_ \| '_ \ / _ \ '__/ __|
-||    | |  | | \ \| |____ ____) |    \  /\  /  | | | | | | | |  __/ |  \__ \
+||    | |  | | \ \| |____ ____) |    \  /\  /  | | | | | | | |  __/ |  \__ \\
 ||    |_|  |_|  \_\______|_____/      \/  \/   |_|_| |_|_| |_|\___|_|  |___/
   --------------------------------------------------------------------------
 """))
@@ -325,7 +326,7 @@ all_register = pd.read_csv(StringIO(all_register))
 csv_input = csv_input.iloc[1:,:]
 csv_input.Number_talk = csv_input.Number_talk.astype(int)
 
-dfTalk, dfPoster = merge_results(all_register,csv_input, args.minimum_votes)
+dfTalk, dfPoster = merge_results(all_register,csv_input, int(args.minimum_votes))
 
 compute_score(dfTalk, dfPoster, OUTPUT, TEMPLATE)
 
