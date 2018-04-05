@@ -3,7 +3,7 @@
 Script to extract the information of the viting for YRLS
 
 ```
-usage: YRLS_scoring.py [-h] [-url <URL>] [-csv <FILEE>] -t <FILE>
+usage: YRLS_scoring.py [-h] [-url <URL>] [-csv <FILE>] -t <FILE>
                        [-o <OUTPUT>] [-min <INT>]
 
      *            *               *                   *
@@ -27,7 +27,7 @@ General input dataset options:
                         Shared URL to the google spreandsheet with all the
                         registration and google form [if you don't provide the
                         csv file]
-  -csv <FILEE>, --file_info_csv <FILEE>
+  -csv <FILE>, --file_info_csv <FILE>
                         CSV with all the registration and google form [if you
                         don't provide the url]
   -t <FILE>, --template <FILE>
