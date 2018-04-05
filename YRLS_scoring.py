@@ -264,7 +264,7 @@ general_option.add_argument("-url",'--url_info_csv',
 							dest="url_info_csv",
 							help="Shared URL to the google spreandsheet with all the registration and google form [if you don't provide the csv file]")
 general_option.add_argument("-csv",'--file_info_csv',
-							metavar="<FILEE>",
+							metavar="<FILE>",
 							dest="file_info_csv",
 							help="CSV with all the registration and google form [if you don't provide the url]")
 general_option.add_argument("-t",'--template',
