@@ -84,7 +84,9 @@ def grab_spreadsheet_info(URL, names_columns, all_register_email) :
     names_columns = [i for i in names_columns if i != 'nan']    
     
     # Grab the information from the google spreadsheet
-    voting = requests.get("{}/export?format=csv".format(URL)).text
+    response = requests.get("{}/export?format=csv".format(URL))
+    response.encoding = "utf-8"
+    voting = response.text
     voting = pd.read_csv(StringIO(voting))
     
     columns_score = [i for i in voting.columns if not "Feedback" in i ]
@@ -296,7 +298,9 @@ create_folder(OUTPUT)
 
 #  We take the information directly on the spreadsheet if the information is online
 if args.url_info_csv :
-	csv_input = requests.get("{}/export?format=csv".format(args.url_info_csv)).text #functon that allow to take information from website + adding /export?format=csv to a google spreadsheet link allow to export as csv
+	response = requests.get("{}/export?format=csv".format(args.url_info_csv)) #functon that allow to take information from website + adding /export?format=csv to a google spreadsheet link allow to export as csv
+        response.encoding = "utf-8"
+        csv_input = response.text
 	csv_input = pd.read_csv(StringIO(csv_input)) # StringIO allow to transform string to flux, so we can read the csv with pandas
 elif args.file_info_csv :
 	csv_input = pd.read_csv(args.file_info_csv)
@@ -319,7 +323,9 @@ print(dedent("""
 """))
 
 # We split the dataframe about the registration information
-all_register = requests.get("{}/export?format=csv".format(csv_input.iloc[0].Speadsheet_url)).text
+response = requests.get("{}/export?format=csv".format(csv_input.iloc[0].Speadsheet_url))
+response.encoding = "utf-8"
+all_register = response.text
 all_register = pd.read_csv(StringIO(all_register))
 
 # We split the dataframe with only the google spreadsheets of the votes
