@@ -299,8 +299,8 @@ create_folder(OUTPUT)
 #  We take the information directly on the spreadsheet if the information is online
 if args.url_info_csv :
 	response = requests.get("{}/export?format=csv".format(args.url_info_csv)) #functon that allow to take information from website + adding /export?format=csv to a google spreadsheet link allow to export as csv
-        response.encoding = "utf-8"
-        csv_input = response.text
+	response.encoding = "utf-8"
+	csv_input = response.text
 	csv_input = pd.read_csv(StringIO(csv_input)) # StringIO allow to transform string to flux, so we can read the csv with pandas
 elif args.file_info_csv :
 	csv_input = pd.read_csv(args.file_info_csv)
