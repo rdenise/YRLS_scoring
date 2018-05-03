@@ -105,9 +105,12 @@ def grab_spreadsheet_info(URL, names_columns, all_register_email) :
     voting = voting.replace("5 (Excellent)", 5) # Poster max
     voting = voting.replace("10 (Excellent)", 10) # Talk max
     voting = voting.replace("1 (Poor)", 1) # Talk and poster min
-    
+
+
     voting.columns = names_columns
     
+    voting = voting.astype("float64")
+
     return voting
 
 ##########################################################################################
@@ -137,6 +140,8 @@ def merge_results(allRegister, csvInput, number) :
         # Verify to get the columns with only 5 votes
         tmp_df.loc[:,tmp_df.apply(lambda x : True if x[~x.isna()].shape[0] >= number else False, axis=0)]
         
+        tmp_df = tmp_df.groupby(level="Email Address").mean()
+
         df_Talk = pd.concat([df_Talk, tmp_df.iloc[:,:subtab.Number_talk]], axis=1)
         df_Poster = pd.concat([df_Poster, tmp_df.iloc[:, subtab.Number_talk:]], axis=1)
     
@@ -333,6 +338,7 @@ csv_input = csv_input.iloc[1:,:]
 csv_input.Number_talk = csv_input.Number_talk.astype(int)
 
 dfTalk, dfPoster = merge_results(all_register,csv_input, int(args.minimum_votes))
+#dftmp = merge_results(all_register,csv_input, int(args.minimum_votes))
 
 compute_score(dfTalk, dfPoster, OUTPUT, TEMPLATE)
 
