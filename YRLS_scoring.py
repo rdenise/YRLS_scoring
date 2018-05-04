@@ -222,7 +222,7 @@ def compute_score(df_Talk, df_Poster, folder, backgroung_template) :
     beautify_h1("Talk")
     print("The name of the winner for YRLS{} : {}".format(time.strftime("%Y"), winner_Talk))
 
-    score_Poster = df_Poster.mean(axis=0).sort_values()
+    score_Poster = df_Poster.mean(axis=0).sort_values(ascending=False)
     score_Poster.to_csv(os.path.join(folder, "Results_Poster_YRLS{}_{}.txt".format(time.strftime("%Y"), time.strftime("%Y%m%d"))), sep="\t")
     winner_Poster = " and ".join(score_Poster[score_Poster == score_Poster.max()].index.tolist())
 
